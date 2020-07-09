@@ -1,10 +1,10 @@
 /* global document */
 'use strict';
-const {promisify} = require('util');
+const { promisify } = require('util');
 const fs = require('fs');
 const fileUrl = require('file-url');
 const puppeteer = require('puppeteer');
-const {devicesMap} = require('puppeteer/DeviceDescriptors');
+const { devicesMap } = require('puppeteer/DeviceDescriptors');
 const toughCookie = require('tough-cookie');
 
 const writeFile = promisify(fs.writeFile);
@@ -93,8 +93,8 @@ const disableAnimations = () => {
 };
 
 const getBoundingClientRect = element => {
-	const {top, left, height, width, x, y} = element.getBoundingClientRect();
-	return {top, left, height, width, x, y};
+	const { top, left, height, width, x, y } = element.getBoundingClientRect();
+	return { top, left, height, width, x, y };
 };
 
 const parseCookie = (url, cookie) => {
@@ -102,7 +102,7 @@ const parseCookie = (url, cookie) => {
 		return cookie;
 	}
 
-	const jar = new toughCookie.CookieJar(undefined, {rejectPublicSuffixes: false});
+	const jar = new toughCookie.CookieJar(undefined, { rejectPublicSuffixes: false });
 	jar.setCookieSync(cookie, url);
 	const returnValue = jar.serializeSync().cookies[0];
 
@@ -135,6 +135,8 @@ const captureWebsite = async (input, options) => {
 		launchOptions: {},
 		_keepAlive: false,
 		isJavaScriptEnabled: true,
+		headless: true,
+		args: ['--no-sandbox', '--disable-setuid-sandbox'],
 		...options
 	};
 
@@ -168,7 +170,7 @@ const captureWebsite = async (input, options) => {
 		screenshotOptions.omitBackground = !options.defaultBackground;
 	}
 
-	const launchOptions = {...options.launchOptions};
+	const launchOptions = { ...options.launchOptions };
 
 	if (options.debug) {
 		launchOptions.headless = false;
@@ -182,7 +184,7 @@ const captureWebsite = async (input, options) => {
 
 	if (options.debug) {
 		page.on('console', message => {
-			let {url, lineNumber, columnNumber} = message.location();
+			let { url, lineNumber, columnNumber } = message.location();
 			lineNumber = lineNumber ? `:${lineNumber}` : '';
 			columnNumber = columnNumber ? `:${columnNumber}` : '';
 			const location = url ? ` (${url}${lineNumber}${columnNumber})` : '';
@@ -336,9 +338,9 @@ module.exports.file = async (url, filePath, options = {}) => {
 	});
 };
 
-module.exports.buffer = async (url, options) => captureWebsite(url, {...options, encoding: 'binary'});
+module.exports.buffer = async (url, options) => captureWebsite(url, { ...options, encoding: 'binary' });
 
-module.exports.base64 = async (url, options) => captureWebsite(url, {...options, encoding: 'base64'});
+module.exports.base64 = async (url, options) => captureWebsite(url, { ...options, encoding: 'base64' });
 
 module.exports.devices = Object.values(devicesMap).map(device => device.name);
 
