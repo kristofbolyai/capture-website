@@ -132,11 +132,12 @@ const captureWebsite = async (input, options) => {
 		delay: 0,
 		debug: false,
 		darkMode: false,
-		launchOptions: {},
+		launchOptions: {
+			headless: true,
+			args: ['--no-sandbox', '--disable-setuid-sandbox']
+		},
 		_keepAlive: false,
 		isJavaScriptEnabled: true,
-		headless: false,
-		args: ['--no-sandbox', '--disable-setuid-sandbox'],
 		...options
 	};
 
