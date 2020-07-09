@@ -135,7 +135,7 @@ const captureWebsite = async (input, options) => {
 		launchOptions: {},
 		_keepAlive: false,
 		isJavaScriptEnabled: true,
-		headless: true,
+		headless: false,
 		args: ['--no-sandbox', '--disable-setuid-sandbox'],
 		...options
 	};
